@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:taking_notes_firebase_app/ui/shared_components/custom_button.dart';
 import 'package:taking_notes_firebase_app/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+import 'gridview_listview_toggle.dart';
 class AddNotesScreen extends StatefulWidget {
   const AddNotesScreen({super.key});
 
@@ -13,6 +15,7 @@ class AddNotesScreen extends StatefulWidget {
 
 class _AddNotesScreenState extends State<AddNotesScreen> {
   final addnoteController = TextEditingController();
+  final currentUser= FirebaseAuth.instance;
   final firestoreNote = FirebaseFirestore.instance.collection('asif');
   final ref= FirebaseFirestore.instance.collection('asif');
   bool loading =false;
@@ -89,9 +92,11 @@ class _AddNotesScreenState extends State<AddNotesScreen> {
                         'notes': addnoteController.text.toString(),
                         'id': id,
                     'date':date,
+                    'uid' :currentUser.currentUser!.uid
                       })
                       .then((value) {
                         Utils().toastMessage('Post Uploaoded');
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>GridViewListViewToggle()));
                         setState(() {
                     loading=false;
                   });})

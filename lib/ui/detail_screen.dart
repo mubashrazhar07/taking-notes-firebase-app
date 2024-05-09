@@ -8,7 +8,11 @@ class DetailScreen extends StatefulWidget {
   final String initialText;
   final String id;
 
-  DetailScreen({super.key, required this.ddate, required this.initialText, required this.id});
+  DetailScreen(
+      {super.key,
+      required this.ddate,
+      required this.initialText,
+      required this.id});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -18,8 +22,9 @@ class _DetailScreenState extends State<DetailScreen> {
   late TextEditingController editController;
   final streamVariable =
       FirebaseFirestore.instance.collection('asif').snapshots();
-  final updateVariable =
-  FirebaseFirestore.instance.collection('asif');
+  final updateVariable = FirebaseFirestore.instance.collection('asif');
+  final deleteVariable = FirebaseFirestore.instance.collection('asif');
+  final favoriteupdateVariable = FirebaseFirestore.instance.collection('favoritesnotes');
 
   @override
   void initState() {
@@ -32,24 +37,34 @@ class _DetailScreenState extends State<DetailScreen> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: kprimaryBlack,
+          leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back,
+                color: Theme.of(context).colorScheme.onSecondary),
+          ),
           actions: [
-            IconButton(
-              icon: const Icon(Icons.save),
-              onPressed: () {
-                updateVariable.doc(widget.id).update({
-                  'notes': editController.text,
+            TextButton(
+                onPressed: () {
+                  updateVariable.doc(widget.id).update({
+                    'notes': editController.text,
+                  }).then((value) {
+                    Utils().toastMessage('Updated');
+                  }).onError((error, stackTrace) {
+                    Utils().toastMessage(error.toString());
+                  });
+                },
+                child: Text('Save', style: TextStyle( color: Theme.of(context).colorScheme.onSecondary,),)),
+            TextButton(
+                onPressed: () {
+                deleteVariable.doc(widget.id).delete();
+                    Navigator.pop(context);
+                    Utils().toastMessage('Deleted');
+                },
+                child: Text('Delete', style: TextStyle( color: Theme.of(context).colorScheme.onSecondary,),)),
 
-                }).then((value){
-                  Utils().toastMessage('upadted');
-                }).onError((error, stackTrace) {
-                  Utils().toastMessage(error.toString());
-                });
-              },
-            ),
-            const Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Icon(Icons.more),
-            ),
+
           ],
         ),
         body: StreamBuilder(
@@ -74,15 +89,15 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                   TextFormField(
                     minLines: 1,
-                    maxLines:  20,
+                    maxLines: 20,
                     controller: editController,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: const Color(0xff1f1f1f),
                       hintText: 'Enter your note...',
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: Color(0xffC7C7C7),
+                        borderSide:  BorderSide(
+                          color: Theme.of(context).colorScheme.onSecondary,
                         ),
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -93,8 +108,8 @@ class _DetailScreenState extends State<DetailScreen> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: Colors.lightBlue,
+                        borderSide:  BorderSide(
+                          color: Theme.of(context).colorScheme.onSecondary,
                           width: 2,
                         ),
                         borderRadius: BorderRadius.circular(16),
@@ -107,4 +122,5 @@ class _DetailScreenState extends State<DetailScreen> {
           },
         ));
   }
+
 }

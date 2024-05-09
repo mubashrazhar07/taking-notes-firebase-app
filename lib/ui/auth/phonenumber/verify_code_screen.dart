@@ -52,7 +52,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
              );
              try{
               await  _auth.signInWithCredential(credential);
-               Navigator.push(context, MaterialPageRoute(builder: (context)=>NotesScreen()));
+           //    Navigator.push(context, MaterialPageRoute(builder: (context)=>NotesScreen()));
              }catch(e){
                setState(() {
                  loading=false;

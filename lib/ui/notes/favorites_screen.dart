@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:taking_notes_firebase_app/ui/detail_screen.dart';
 import '../../utils/theme/constants/app_color.dart';
 
 class FavoriteNotesScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class _FavoriteNotesScreenState extends State<FavoriteNotesScreen> {
   final ref =
       FirebaseFirestore.instance.collection('favoritesnotes').snapshots();
   final refdelete = FirebaseFirestore.instance.collection('favoritesnotes');
+  final updatefavoritenots = FirebaseFirestore.instance.collection('favoritesnotes');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +73,82 @@ class _FavoriteNotesScreenState extends State<FavoriteNotesScreen> {
                                   snapshot.data!.docs[index]['date'].toString(),
                                   style: const TextStyle(color: Colors.grey),
                                 ),
+                                trailing: PopupMenuButton(
+                                    color: Colors.black,
+                                    child: const Icon(Icons.more),
+                                    itemBuilder: (context) => [
+                                      PopupMenuItem(
+                                          child: InkWell(
+
+                                            onTap:(){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          DetailScreen(
+                                                            ddate: snapshot.data!
+                                                                .docs[index]['date']
+                                                                .toString(),
+                                                            initialText: snapshot
+                                                                .data!
+                                                                .docs[index]['notes']
+                                                                .toString(),
+                                                            id: snapshot.data!
+                                                                .docs[index]['id']
+                                                                .toString(),
+                                                          )));
+
+                                            },
+                                            child: ListTile(
+                                              hoverColor:
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .onSecondary,
+                                              leading: Icon(Icons.edit),
+                                              title: Text('Edit'),
+                                            ),
+                                          )),
+                                      PopupMenuItem(
+                                          child: InkWell(
+                                            onTap: () {
+                                              String id = DateTime.now()
+                                                  .millisecondsSinceEpoch
+                                                  .toString();
+                                              updatefavoritenots
+                                                  .doc(id)
+                                                  .set({
+                                                'notes': snapshot.data!
+                                                    .docs[index]['notes']
+                                                    .toString(),
+                                                'date': snapshot.data!
+                                                    .docs[index]['date']
+                                                    .toString(),
+                                                'id': id
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            child: ListTile(
+                                              leading:
+                                              Icon(Icons.favorite),
+                                              title: Text('Favorite'),
+                                            ),
+                                          )),
+                                      PopupMenuItem(
+                                          child: InkWell(
+                                            onTap: () {
+                                              refdelete
+                                                  .doc(snapshot.data!
+                                                  .docs[index]['id']
+                                                  .toString())
+                                                  .delete();
+                                              Navigator.pop(context);
+                                            },
+                                            child: ListTile(
+                                              leading: Icon(Icons.delete),
+                                              title: Text('Delete'),
+                                            ),
+                                          ))
+                                    ]),
                               ),
                             ),
                           );

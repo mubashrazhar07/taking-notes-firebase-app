@@ -11,15 +11,15 @@ class NotesScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.purple,
         actions: [
-       InkWell(
-         onTap: (){
-           _auth.signOut().then((value) {
-             Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignInScreen()));
-           }).onError((error, stackTrace){
-             Utils().toastMessage(error.toString());
-           });
-         },
-         child:const Icon(Icons.signpost_outlined) ,)
+          InkWell(
+            onTap: (){
+              _auth.signOut().then((value) {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignInScreen()));
+              }).onError((error, stackTrace){
+                Utils().toastMessage(error.toString());
+              });
+            },
+            child:const Icon(Icons.signpost_outlined) ,)
         ],
       ),
       body: const Center(
