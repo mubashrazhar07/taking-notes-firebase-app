@@ -21,14 +21,17 @@ class _FavoriteNotesScreenState extends State<FavoriteNotesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        title:  Text('Favorites Notes',style: TextStyle( color: Theme.of(context).colorScheme.onSecondary,
+        ),),
         backgroundColor: kprimaryBlack,
-        actions: const [
-          Icon(Icons.save),
-          Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Icon(Icons.more),
-          ),
-        ],
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.arrow_back,
+              color: Theme.of(context).colorScheme.onSecondary),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
@@ -111,11 +114,11 @@ class _FavoriteNotesScreenState extends State<FavoriteNotesScreen> {
                                       PopupMenuItem(
                                           child: InkWell(
                                             onTap: () {
-                                              String id = DateTime.now()
-                                                  .millisecondsSinceEpoch
-                                                  .toString();
+
                                               updatefavoritenots
-                                                  .doc(id)
+                                                  .doc(snapshot.data!
+                                                  .docs[index]['notes']
+                                                  .toString(),)
                                                   .set({
                                                 'notes': snapshot.data!
                                                     .docs[index]['notes']
@@ -123,7 +126,9 @@ class _FavoriteNotesScreenState extends State<FavoriteNotesScreen> {
                                                 'date': snapshot.data!
                                                     .docs[index]['date']
                                                     .toString(),
-                                                'id': id
+                                                'id': snapshot.data!
+                                                    .docs[index]['notes']
+                                                    .toString(),
                                               });
                                               Navigator.pop(context);
                                             },

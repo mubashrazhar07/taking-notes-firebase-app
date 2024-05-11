@@ -8,8 +8,9 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class GridViewListViewToggle extends StatefulWidget {
-  const GridViewListViewToggle({
-    super.key,
+  String id;
+ GridViewListViewToggle({
+    super.key, required this.id
   });
 
   @override
@@ -115,9 +116,7 @@ class _GridViewListViewToggleState extends State<GridViewListViewToggle> {
                                                   initialText: snapshot.data!
                                                       .docs[index]['notes']
                                                       .toString(),
-                                                  id: snapshot
-                                                      .data!.docs[index]['id']
-                                                      .toString(),
+                                                  id: widget.id
                                                 )));
                                   },
                                   child: Container(
@@ -179,9 +178,7 @@ class _GridViewListViewToggleState extends State<GridViewListViewToggle> {
                                                           .data!
                                                           .docs[index]['notes']
                                                           .toString(),
-                                                      id: snapshot.data!
-                                                          .docs[index]['id']
-                                                          .toString(),
+                                                      id: widget.id
                                                     )));
                                         /* ref.doc(snapshot.data!.docs[index]['id'].toString()).update({
                                         'notes': 'I Am Good',
@@ -226,9 +223,7 @@ class _GridViewListViewToggleState extends State<GridViewListViewToggle> {
                                                                           .data!
                                                                           .docs[index]['notes']
                                                                           .toString(),
-                                                                      id: snapshot.data!
-                                                                          .docs[index]['id']
-                                                                          .toString(),
+                                                                      id: widget.id
                                                                     )));
 
                                                       },
@@ -244,11 +239,9 @@ class _GridViewListViewToggleState extends State<GridViewListViewToggle> {
                                                 PopupMenuItem(
                                                     child: InkWell(
                                                   onTap: () {
-                                                    String id = DateTime.now()
-                                                        .millisecondsSinceEpoch
-                                                        .toString();
+
                                                     favoriteFirebaseNote
-                                                        .doc(id)
+                                                        .doc(widget.id)
                                                         .set({
                                                       'notes': snapshot.data!
                                                           .docs[index]['notes']
@@ -256,7 +249,7 @@ class _GridViewListViewToggleState extends State<GridViewListViewToggle> {
                                                       'date': snapshot.data!
                                                           .docs[index]['date']
                                                           .toString(),
-                                                      'id': id
+                                                      'id': widget.id
                                                     });
                                                     Navigator.pop(context);
                                                   },
@@ -270,9 +263,7 @@ class _GridViewListViewToggleState extends State<GridViewListViewToggle> {
                                                     child: InkWell(
                                                   onTap: () {
                                                     ref
-                                                        .doc(snapshot.data!
-                                                            .docs[index]['id']
-                                                            .toString())
+                                                        .doc(widget.id)
                                                         .delete();
                                                     Navigator.pop(context);
                                                   },

@@ -5,6 +5,7 @@ import 'package:taking_notes_firebase_app/ui/auth/phonenumber/siginup_with_phone
 import 'package:taking_notes_firebase_app/ui/auth/signin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:taking_notes_firebase_app/utils/utils.dart';
+import '../notes/add_notes_screen.dart';
 import '../notes/gridview_listview_toggle.dart';
 import '../shared_components/custom_button.dart';
 import 'auth_components/auth_title.dart';
@@ -100,7 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GridViewListViewToggle()));
+                                    AddNotesScreen()));
                             setState(() {
                               Utils().toastMessage('User created');
                               loading = false;

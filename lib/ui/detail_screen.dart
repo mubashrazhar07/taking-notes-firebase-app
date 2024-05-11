@@ -8,7 +8,7 @@ class DetailScreen extends StatefulWidget {
   final String initialText;
   final String id;
 
-  DetailScreen(
+  const DetailScreen(
       {super.key,
       required this.ddate,
       required this.initialText,
@@ -23,8 +23,9 @@ class _DetailScreenState extends State<DetailScreen> {
   final streamVariable =
       FirebaseFirestore.instance.collection('asif').snapshots();
   final updateVariable = FirebaseFirestore.instance.collection('asif');
-  final deleteVariable = FirebaseFirestore.instance.collection('asif');
+  final deleteVariablemainlist = FirebaseFirestore.instance.collection('asif');
   final favoriteupdateVariable = FirebaseFirestore.instance.collection('favoritesnotes');
+  final deleteVariablefavoritelist = FirebaseFirestore.instance.collection('favoritesnotes');
 
   @override
   void initState() {
@@ -50,6 +51,9 @@ class _DetailScreenState extends State<DetailScreen> {
                   updateVariable.doc(widget.id).update({
                     'notes': editController.text,
                   }).then((value) {
+                    favoriteupdateVariable.doc(widget.id).update({
+                      'notes': editController.text,
+                    });
                     Utils().toastMessage('Updated');
                   }).onError((error, stackTrace) {
                     Utils().toastMessage(error.toString());
@@ -58,7 +62,9 @@ class _DetailScreenState extends State<DetailScreen> {
                 child: Text('Save', style: TextStyle( color: Theme.of(context).colorScheme.onSecondary,),)),
             TextButton(
                 onPressed: () {
-                deleteVariable.doc(widget.id).delete();
+                deleteVariablemainlist.doc(widget.id).delete().then((value) {
+                  deleteVariablefavoritelist.doc(widget.id).delete();
+                });
                     Navigator.pop(context);
                     Utils().toastMessage('Deleted');
                 },

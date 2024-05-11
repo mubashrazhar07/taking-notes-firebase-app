@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taking_notes_firebase_app/ui/auth/forgot_password_screen.dart';
 import 'package:taking_notes_firebase_app/ui/auth/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:taking_notes_firebase_app/ui/notes/add_notes_screen.dart';
 import 'package:taking_notes_firebase_app/utils/theme/constants/app_color.dart';
 
 import 'package:taking_notes_firebase_app/utils/utils.dart';
@@ -77,7 +78,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         _auth.signInWithEmailAndPassword(
                             email: emailController.text.toString(),
                             password: passwordController.text.toString()).then((value) {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>const GridViewListViewToggle()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> AddNotesScreen()));
                           Utils().toastMessage('Sign Inned');
                           setState(() {
                             loading=false;

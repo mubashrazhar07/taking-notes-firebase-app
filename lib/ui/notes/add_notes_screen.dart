@@ -19,6 +19,7 @@ class _AddNotesScreenState extends State<AddNotesScreen> {
   final firestoreNote = FirebaseFirestore.instance.collection('asif');
   final ref= FirebaseFirestore.instance.collection('asif');
   bool loading =false;
+  late String id;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +85,7 @@ class _AddNotesScreenState extends State<AddNotesScreen> {
                   setState(() {
                     loading=true;
                   });
-                  String id = DateTime.now().millisecondsSinceEpoch.toString();
+                id = DateTime.now().millisecondsSinceEpoch.toString();
                   String date= DateTime.now().toString();
                   firestoreNote
                       .doc(id)
@@ -96,7 +97,7 @@ class _AddNotesScreenState extends State<AddNotesScreen> {
                       })
                       .then((value) {
                         Utils().toastMessage('Post Uploaoded');
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>GridViewListViewToggle()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>GridViewListViewToggle(id: id,)));
                         setState(() {
                     loading=false;
                   });})
