@@ -11,7 +11,7 @@ void isLogin(BuildContext context){
  final user= _auth.currentUser;
   Timer(const Duration(seconds: 2), () {
     if(user!=null){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNotesScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> GridViewListViewToggle()));
     }else{
       Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignInScreen()));
     }

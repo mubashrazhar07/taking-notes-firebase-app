@@ -8,9 +8,9 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class GridViewListViewToggle extends StatefulWidget {
-  String id;
+  String ? id;
  GridViewListViewToggle({
-    super.key, required this.id
+    super.key,  this.id
   });
 
   @override
@@ -116,7 +116,7 @@ class _GridViewListViewToggleState extends State<GridViewListViewToggle> {
                                                   initialText: snapshot.data!
                                                       .docs[index]['notes']
                                                       .toString(),
-                                                  id: widget.id
+                                                  id: widget.id.toString()
                                                 )));
                                   },
                                   child: Container(
@@ -178,7 +178,7 @@ class _GridViewListViewToggleState extends State<GridViewListViewToggle> {
                                                           .data!
                                                           .docs[index]['notes']
                                                           .toString(),
-                                                      id: widget.id
+                                                      id: widget.id.toString()
                                                     )));
                                         /* ref.doc(snapshot.data!.docs[index]['id'].toString()).update({
                                         'notes': 'I Am Good',
@@ -223,7 +223,7 @@ class _GridViewListViewToggleState extends State<GridViewListViewToggle> {
                                                                           .data!
                                                                           .docs[index]['notes']
                                                                           .toString(),
-                                                                      id: widget.id
+                                                                      id: widget.id.toString()
                                                                     )));
 
                                                       },
